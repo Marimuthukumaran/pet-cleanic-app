@@ -83,11 +83,6 @@ steps:
       targetPath: '$(target)'
       artifactName: '$(artifact)'
 
-  - task: DownloadBuildArtifacts@1
-    displayName: DOWNLOAD ARTIFACTS
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      downloadPath: '$(System.ArtifactsDirectory)'
+ 
 
 
