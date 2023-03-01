@@ -68,10 +68,7 @@ steps:
   #    sudo apt-get install trivy
   #    trivy -v
   #    pwd
-  - task: trivy@1
-    inputs:
-      version: 'latest'
-      path: 'seethai/dufry-registry'
+  
   
   #- task: CmdLine@2
   #  displayName: RUN AQUASEC TRIVY SCAN AND COPY TO ARTIFACTS STAGING DIRECTORY
