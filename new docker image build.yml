@@ -56,10 +56,12 @@ steps:
       Dockerfile: $(dockerfilePath)
       tags: |
           $(tag)
+  
   - task: trivy@1
     inputs:
       version: 'latest'
-      path: 'seethai/dufry-registry'
+      image: 'seethai/dufry-registry:$(tag)'
+  
   
   #- task: CmdLine@2
   #  displayName: DOWNLOAD AND INSTALL AQUASEC TRIVY
