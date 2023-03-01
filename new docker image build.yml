@@ -50,7 +50,7 @@ steps:
   
   - task: Docker@2
     inputs:
-      containerRegistry: 'DockerDufryServiceConnection'
+      containerRegistry: 'newDockerServiceConnection'
       repository: 'seethai/dufry-registry'
       command: 'buildAndPush'
       Dockerfile: $(dockerfilePath)
