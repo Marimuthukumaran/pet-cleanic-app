@@ -57,31 +57,36 @@ steps:
       tags: |
           $(tag)
   
-  - task: CmdLine@2
-    displayName: DOWNLOAD AND INSTALL AQUASEC TRIVY
+  #- task: CmdLine@2
+  #  displayName: DOWNLOAD AND INSTALL AQUASEC TRIVY
+  # inputs:
+  #   script: |
+  #    sudo apt-get install wget apt-transport-https gnupg lsb-release
+  #    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+  #    echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+  #    sudo apt-get update
+  #    sudo apt-get install trivy
+  #    trivy -v
+  #    pwd
+  - task: trivy@1
     inputs:
-      script: |
-       sudo apt-get install wget apt-transport-https gnupg lsb-release
-       wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
-       echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
-       sudo apt-get update
-       sudo apt-get install trivy
-       trivy -v
-       pwd
-  - task: CmdLine@2
-    displayName: RUN AQUASEC TRIVY SCAN AND COPY TO ARTIFACTS STAGING DIRECTORY
-    inputs:
-      script: |
-        trivy image --exit-code 0 --severity LOW,MEDIUM seethai/dufry-registry:$(tag) > low-med.txt
-        trivy image --exit-code 1 --severity HIGH,CRITICAL seethai/dufry-registry:$(tag) > high-critical.txt
-        ls -l
-        cp -rvf *.txt $(target)
+      version: 'latest'
+      path: 'seethai/dufry-registry'
   
-  - task: PublishBuildArtifacts@1
-    displayName: PUBLISH ARTIFACTS
-    inputs:
-      targetPath: '$(target)'
-      artifactName: '$(artifact)'
+  #- task: CmdLine@2
+  #  displayName: RUN AQUASEC TRIVY SCAN AND COPY TO ARTIFACTS STAGING DIRECTORY
+  #  inputs:
+  #    script: |
+  #     trivy image --exit-code 0 --severity LOW,MEDIUM seethai/dufry-registry:$(tag) > low-med.txt
+  #     trivy image --exit-code 1 --severity HIGH,CRITICAL seethai/dufry-registry:$(tag) > high-critical.txt
+  #     ls -l
+  #     cp -rvf *.txt $(target)
+  
+  #- task: PublishBuildArtifacts@1
+  # displayName: PUBLISH ARTIFACTS
+  # inputs:
+  #   targetPath: '$(target)'
+  #   artifactName: '$(artifact)'
 
  
 
