@@ -57,12 +57,15 @@ steps:
       tags: |
           $(tag)
   
+  - task: Docker@2
+    displayName: Login to Docker Hub
+    inputs:
+      command: login
+      containerRegistry: 'newDockerServiceConnection'
+
   - task: trivy@1
     inputs:
-      path: .
-  - task: trivy@1
-    inputs:
-      image: $(tag)
+      image: seethai/dufry-registry:$(tag)
       
   
   
