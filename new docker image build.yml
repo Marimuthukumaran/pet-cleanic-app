@@ -3,7 +3,10 @@
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
+jobs:
+- job: Test
+  timeoutInMinutes: 10 # how long to run the job before automatically cancelling
+  cancelTimeoutInMinutes: 2 # how much time to give 'run always even if cancelled tasks' before stopping them
 trigger:
   branches:
     include:
@@ -13,7 +16,7 @@ trigger:
       - pet-cleanic-app/*
 
 pr: none # will disable PR builds (but not CI builds)
-
+ 
 variables:
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
@@ -21,12 +24,12 @@ variables:
   tag: '$(Build.BuildId)'
   target: $(build.artifactstagingdirectory)
   artifact: AM
-
+ 
 
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
+  steps:
   - task: Cache@2
     inputs:
       key: 'maven | "$(Agent.OS)" | **/pom.xml'
