@@ -65,7 +65,8 @@ steps:
 
   - task: trivy@1
     inputs:
-      image: seethai/dufryregistry1:$(tag)
+      version: 'latest'
+      image: 'seethai/dufryregistry1:$(tag)'
       
   
   
