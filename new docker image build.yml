@@ -69,11 +69,6 @@ steps:
       image: 'seethai/dufryregistry1/$(tag)'
       exitCode: '0'
   
-  
-      
-  
-  
-  
   #- task: CmdLine@2
   #  displayName: DOWNLOAD AND INSTALL AQUASEC TRIVY
   # inputs:
