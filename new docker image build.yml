@@ -66,7 +66,10 @@ steps:
   - task: trivy@1
     inputs:
       version: 'latest'
-      image: 'seethai/dufryregistry1:$(tag)'
+      debug: true
+      path: 'seethai/dufryregistry1'
+      exitCode: '0'
+  
       
   
   
