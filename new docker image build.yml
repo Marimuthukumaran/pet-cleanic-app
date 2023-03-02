@@ -26,8 +26,8 @@ variables:
   artifact: AM
   
 
-  pool:
-    vmImage: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
   steps:
     - task: Cache@2
