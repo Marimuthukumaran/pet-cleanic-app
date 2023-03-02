@@ -59,8 +59,10 @@ steps:
   
   - task: trivy@1
     inputs:
-      version: 'latest'
-      image: '$(tag)'
+      path: .
+  - task: trivy@1
+    inputs:
+      image: $(tag)
       
   
   
