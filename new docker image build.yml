@@ -23,7 +23,8 @@ variables:
   artifact: AM
 pool:
   vmImage: 'ubuntu-latest'
-
+  timeoutInMinutes: 20 # how long to run the job before automatically cancelling
+  
 
 steps:
   - task: Cache@2
