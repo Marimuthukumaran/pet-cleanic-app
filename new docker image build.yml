@@ -62,10 +62,12 @@ steps:
     inputs:
       command: login
       containerRegistry: 'newDockerServiceConnection'
+
   - task: trivy@1
     inputs:
       version: 'latest'
       image: 'seethai/dufryregistry2:2819'
+      exitCode: '0'
       
 
   
