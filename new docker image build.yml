@@ -51,7 +51,7 @@ steps:
   - task: Docker@2
     inputs:
       containerRegistry: 'newDockerServiceConnection'
-      repository: 'seethai/dufry-registry'
+      repository: 'seethai/dufryregistry2'
       command: 'buildAndPush'
       Dockerfile: $(dockerfilePath)
       tags: |
@@ -65,7 +65,7 @@ steps:
   - task: trivy@1
     inputs:
       version: 'latest'
-      image: 'seethai/dufry-registry:2792'
+      image: 'seethai/dufryregistry2:2819'
       
 
   
