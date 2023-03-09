@@ -51,7 +51,7 @@ steps:
   - task: Docker@2
     inputs:
       containerRegistry: 'newDockerServiceConnection'
-      repository: $(imagename)
+      repository: $(imagename1)
       command: 'buildAndPush'
       Dockerfile: $(dockerfilePath)
       tags: |
@@ -76,7 +76,7 @@ steps:
     inputs:
       version: 'latest'
   #    image: 'seethai/dufryregistry2:$(tag)'
-      image: '$(imagename):$(tag)'
+      image: '$(imagename1):$(tag)'
       exitCode: '0'
       
 
