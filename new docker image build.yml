@@ -48,23 +48,23 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
     
-  #- task: Docker@2
-  #  inputs:
-  #    containerRegistry: 'newDockerServiceConnection'
-  #   repository: 'seethai/dufryregistry2'
-  #    command: 'buildAndPush'
-  #    Dockerfile: $(dockerfilePath)
-  #    tags: |
-  #        $(tag)
-  
   - task: Docker@2
     inputs:
       containerRegistry: 'newDockerServiceConnection'
-      repository: 'dufryimage'
-      command: 'build'
+      repository: $(imagename)
+      command: 'buildAndPush'
       Dockerfile: $(dockerfilePath)
       tags: |
           $(tag)
+  
+  #- task: Docker@2
+  #  inputs:
+  #    containerRegistry: 'newDockerServiceConnection'
+  #    repository: 'dufryimage'
+  #    command: 'build'
+  #    Dockerfile: $(dockerfilePath)
+  #    tags: |
+  #        $(tag)
     
   #- task: Docker@2
   #  displayName: Login to Docker Hub
@@ -76,7 +76,7 @@ steps:
     inputs:
       version: 'latest'
   #    image: 'seethai/dufryregistry2:$(tag)'
-      image: 'dufryimage:$(tag)'
+      image: '$(imagename):$(tag)'
       exitCode: '0'
       
 
