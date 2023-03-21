@@ -265,6 +265,16 @@
 
   <repositories>
     <repository>
+        <id>dufry</id>
+        <url>https://pkgs.dev.azure.com/pradeepselventhiran/dufry/_packaging/dufry/maven/v1</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+    <repository>
       <id>spring-snapshots</id>
       <name>Spring Snapshots</name>
       <url>https://repo.spring.io/snapshot</url>
@@ -420,5 +430,16 @@
       </build>
     </profile>
   </profiles>
-
+<distributionManagement>
+   <repository>
+      <id>dufry</id>
+      <url>https://pkgs.dev.azure.com/pradeepselventhiran/dufry/_packaging/dufry/maven/v1</url>
+      <releases>
+         <enabled>true</enabled>
+      </releases>
+      <snapshots>
+         <enabled>true</enabled>
+      </snapshots>
+   </repository>
+  </distributionManagement>
 </project>
