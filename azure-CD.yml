@@ -1,0 +1,26 @@
+trigger: none
+
+
+
+jobs:
+- deployment: VMDeploy
+  displayName: Deploy to VM
+  environment: 
+    name: virtual
+    resourceType: virtualMachine
+    resourceName: dufry-linux
+  strategy:
+    runOnce:
+      deploy:   
+          steps:
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'specific'
+              project: '5b76f5c2-224a-4cd1-a56a-d6fca03d9bab'
+              definition: '291'
+              buildVersionToDownload: 'latest'
+              targetPath: '$(Pipeline.Workspace)/s'
+         
+              
+              
+             
