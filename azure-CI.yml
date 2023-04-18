@@ -1,0 +1,61 @@
+trigger: none
+pr: none
+#variables:
+  #MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  #MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  # Agent VM image name
+  #agent_name: 'janani'
+stages:
+  - stage: Build
+    displayName: Build 
+    jobs:
+      - job: MavenBuild
+
+        displayName: Build 
+        pool:
+          vmImage: 'ubuntu-latest' 
+          
+ #         demands: Agent.Name -equals $(agent_name)
+        steps:
+          
+          - task: Maven@3
+            inputs:
+              mavenPomFile: '$(Build.SourcesDirectory)/pom.xml'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: 'default'
+              mavenVersionOption: 'Default'
+              #mavenOptions: '-Xmx3072m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+              mavenAuthenticateFeed: true
+              effectivePomSkip: false
+          #- task: ArtifactoryGenericUpload@2
+           # inputs:
+            #  artifactoryService: 'Jfrog-server'
+             # specSource: 'taskConfiguration'
+              #fileSpec: |
+               # {
+                #  "files": [
+                 #   {
+                  #    "pattern": "$(Build.SourcesDirectory)/target/*.war",
+                   #   "target": "janani-java-dufry-repo-java"
+                    #}
+                  #]
+                #}
+              #collectBuildInfo: true
+              #buildName: '$(Build.DefinitionName)'
+              #buildNumber: '$(Build.BuildNumber)'
+              #projectKey: 'janani-java'
+              #failNoOp: true
+          #- task: ArtifactoryPublishBuildInfo@1
+           # inputs:
+            #  artifactoryService: 'Jfrog-server'
+             # buildName: '$(Build.DefinitionName)'
+              #buildNumber: '$(Build.BuildNumber)'
+              #projectKey: 'janani-java'
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Pipeline.Workspace)/s/target'
+              artifact: 'dufry1'
+              publishLocation: 'pipeline'
+  
