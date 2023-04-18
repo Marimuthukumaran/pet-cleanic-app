@@ -57,7 +57,7 @@ stages:
               #projectKey: 'janani-java'
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: '$(Pipeline.Workspace)/s'
+              targetPath: '$(Pipeline.Workspace)/s/target'
               artifact: 'dufry1'
               publishLocation: 'pipeline'
   
