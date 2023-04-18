@@ -17,18 +17,20 @@ stages:
           
  #         demands: Agent.Name -equals $(agent_name)
         steps:
-          
-          - task: Maven@3
+          - task: Maven@4
             inputs:
               mavenPomFile: '$(Build.SourcesDirectory)/pom.xml'
               publishJUnitResults: true
               testResultsFiles: '**/surefire-reports/TEST-*.xml'
               javaHomeOption: 'JDKVersion'
-              jdkVersionOption: 'default'
+              jdkVersionOption: '1.17'
               mavenVersionOption: 'Default'
-              #mavenOptions: '-Xmx3072m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
               mavenAuthenticateFeed: true
               effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+       
+              #mavenOptions: '-Xmx3072m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+            
           #- task: ArtifactoryGenericUpload@2
            # inputs:
             #  artifactoryService: 'Jfrog-server'
