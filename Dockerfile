@@ -18,8 +18,9 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
 ENV TARGETARCH=linux-x64
 
-RUN apt-get install -y nodejs  \
-&&  apt-get  install -y openjdk-17-jre-headless \
+RUN apt-get update \
+&& apt-get install -y nodejs  \
+&& apt-get install -y openjdk-17-jdk openjdk-17-jre \
 && apt-get update \
 && apt-get install -y maven 
 
