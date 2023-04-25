@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azdevops-deployment
+  labels:
+    app: azdevops-agent
+spec:
+  replicas: 1 #here is the configuration for the actual agent always running
+  selector:
+    matchLabels:
+      app: azdevops-agent
+  template:
+    metadata:
+      labels:
+        app: azdevops-agent
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: kubepodcreation
+        image: dufry.azurecr.io/abjanani/petclinic:3653
+        imagePullPolicy: Always  
+        env:
+          - name: AZP_URL
+            value: https://dev.azure.com/pradeepselventhiran/
+          - name: AZP_TOKEN
+            value: kylk6msxlvnfm2zquxscguobvkacfuetaiezvaf4tyrzohq2ldkq
+          - name: AZP_POOL
+            value: MD_Container_Agent
+        volumeMounts:
+        - mountPath: /var/run/docker.sock
+          name: docker-volume
+      volumes:
+      - name: docker-volume
+        hostPath:
+          path: /var/run/docker.sock
