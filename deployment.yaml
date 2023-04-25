@@ -18,7 +18,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: kubepodcreation
-        image: dufry.azurecr.io/marimuthukumaran/pet-cleanic-app:3681
+        image: dufry.azurecr.io/marimuthukumaran/pet-cleanic-app:3683
         imagePullPolicy: Always  
         env:
           - name: AZP_URL
