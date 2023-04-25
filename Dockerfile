@@ -20,7 +20,7 @@ ENV TARGETARCH=linux-x64
 
 RUN apt-get update \
 && apt install -y nodejs  \
-&& apt install default-jdk \
+&& apt install -y default-jdk \
 && apt-get update \
 && apt install -y maven 
 
