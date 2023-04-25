@@ -1,22 +1,30 @@
-# First stage: complete build environment
-FROM maven:3.8.3-openjdk-17 AS builder
+FROM ubuntu:20.04
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-# add pom.xml and source code
-WORKDIR /project
-COPY . .
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+    apt-transport-https \
+    apt-utils \
+    ca-certificates \
+    curl \
+    git \
+    iputils-ping \
+    jq \
+    lsb-release \
+    software-properties-common
 
-# package jar
-RUN mvn clean package -DskipTests
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-# Second stage: minimal runtime environment
-From eclipse-temurin:17-jre-alpine
+# Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
+ENV TARGETARCH=linux-x64
 
-# To Properly handle PID1 events
-RUN apk add dumb-init
+RUN apt-get install -y nodejs  \
+&&  apt-get -y install openjdk-17-jre-headless \
+&& apt-get install -y maven 
 
-# copy jar from the first stage
-COPY --from=builder project/target/*.jar Pet-cleanic-0.0.1-SNAPSHOT.jar
+WORKDIR /azp
 
-EXPOSE 8080
+COPY ./start.sh .
+RUN chmod +x start.sh
 
-CMD "dumb-init" "java" "-jar" "Pet-cleanic-0.0.1-SNAPSHOT.jar"
+ENTRYPOINT [ "./start.sh" ]
