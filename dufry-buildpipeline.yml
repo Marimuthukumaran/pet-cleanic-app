@@ -48,7 +48,7 @@ stages:
              javaHomeOption: 'JDKVersion'
              jdkVersionOption: 'default'
              mavenVersionOption: 'Default'
-             mavenAuthenticateFeed: true
+             mavenAuthenticateFeed: false
              effectivePomSkip: true
              sonarQubeRunAnalysis: false
         
