@@ -19,7 +19,8 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 ENV TARGETARCH=linux-x64
 
 RUN apt-get install -y nodejs  \
-&&  apt-get -y install openjdk-17-jre-headless \
+&&  apt-get  install -y openjdk-17-jre-headless \
+&& apt-get update \
 && apt-get install -y maven 
 
 WORKDIR /azp
