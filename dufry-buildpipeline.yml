@@ -47,7 +47,7 @@ stages:
              javaHomeOption: 'JDKVersion'
              mavenVersionOption: 'Default'
              mavenAuthenticateFeed: true
-             effectivePomSkip: false
+             effectivePomSkip: true
              sonarQubeRunAnalysis: false
 
          - task: PublishBuildArtifacts@1
