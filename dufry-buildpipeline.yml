@@ -30,7 +30,7 @@ stages:
         - task: Delay@1
           displayName: 'Delay by 5 minutes'
           inputs:
-            delayForMinutes: 1
+            delayForMinutes: 0
   - stage: MavenBuild
     displayName: Build
     jobs:
@@ -41,13 +41,13 @@ stages:
         steps:
          - task: Maven@4
            inputs:
-             mavenPomFile: '$(Build.SourcesDirectory)/pom.xml'
+             mavenPomFile: 'pom.xml'
              goals: install
              publishJUnitResults: false
              javaHomeOption: 'JDKVersion'
              mavenVersionOption: 'Default'
              mavenAuthenticateFeed: true
-             effectivePomSkip: true
+             effectivePomSkip: false
              sonarQubeRunAnalysis: false
 
          - task: PublishBuildArtifacts@1
