@@ -39,19 +39,18 @@ stages:
         pool:
           name: MD_Container_Agent
         steps:
-         - task: Maven@3
+        
+         - task: Maven@4
            inputs:
              mavenPomFile: 'pom.xml'
-             goals: install
+             goals: 'install'
              publishJUnitResults: false
-             javaHomeOption: 'JDKVersion'
              jdkVersionOption: 'default'
+             javaHomeOption: 'JDKVersion'
              mavenVersionOption: 'Default'
-             mavenOptions: '-Xmx3072m'
              mavenAuthenticateFeed: true
              effectivePomSkip: true
              sonarQubeRunAnalysis: false
-        
          - task: PublishBuildArtifacts@1
            inputs:
              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
