@@ -1,0 +1,30 @@
+trigger: none
+pr: none
+variables:
+  # Agent VM image name
+  vmImagename: 'ubuntu-20.04'
+  
+stages:
+  - stage: Build
+    displayName: Build 
+    jobs:
+      - job: Builddockerimage
+        displayName: Build 
+        pool:
+         # #demands: agent.name -equals $(agent_name)
+          vmImage: $(vmImagename)
+          #demands: agent.name -equals $(agent_name)
+        steps:
+          - task: Docker@1
+            displayName: 'Build an image'
+            inputs:
+              azureSubscriptionEndpoint: 'azure'
+              azureContainerRegistry: dufry.azurecr.io
+              command: build
+              dockerFile: Dockerfile
+          - task: Docker@1
+            displayName: Push an Imgae 
+            inputs:
+              azureSubscriptionEndpoint: 'azure'
+              azureContainerRegistry: dufry.azurecr.io
+              command: push
