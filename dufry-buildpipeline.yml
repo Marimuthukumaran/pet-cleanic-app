@@ -39,16 +39,16 @@ stages:
         pool:
           name: MD_Container_Agent
         steps:
-         - task: Maven@4
+         - task: Maven@3
            inputs:
              mavenPomFile: 'pom.xml'
              goals: install
-             publishJUnitResults: true
-             testResultsFiles: '**/surefire-reports/TEST-*.xml'
+             publishJUnitResults: false
              javaHomeOption: 'JDKVersion'
              jdkVersionOption: 'default'
              mavenVersionOption: 'Default'
-             mavenAuthenticateFeed: false
+             mavenOptions: '-Xmx3072m'
+             mavenAuthenticateFeed: true
              effectivePomSkip: true
              sonarQubeRunAnalysis: false
         
