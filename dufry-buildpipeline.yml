@@ -43,13 +43,15 @@ stages:
            inputs:
              mavenPomFile: 'pom.xml'
              goals: install
-             publishJUnitResults: false
+             publishJUnitResults: true
+             testResultsFiles: '**/surefire-reports/TEST-*.xml'
              javaHomeOption: 'JDKVersion'
+             jdkVersionOption: 'default'
              mavenVersionOption: 'Default'
              mavenAuthenticateFeed: true
              effectivePomSkip: true
              sonarQubeRunAnalysis: false
-
+        
          - task: PublishBuildArtifacts@1
            inputs:
              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
