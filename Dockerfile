@@ -21,7 +21,7 @@ ENV TARGETARCH=linux-x64
 RUN apt-get update \
 && apt install -y nodejs  \
 && apt-get update \
-&& apt install openjdk-17-jdk openjdk-17-jre -y \
+&& apt install openjdk-17-jdk -y \
 && apt-get update \
 && apt install -y maven 
 
