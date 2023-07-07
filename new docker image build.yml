@@ -63,6 +63,9 @@ steps:
   #   inputs:
   #     command: login
   #     containerRegistry: 'azureServiceConnection'
+  - task: DockerInstaller@0
+    inputs:
+      dockerVersion: '17.09.0-ce'
   - task: ACRCredential@0
     inputs:
       azureSubscriptionEndpoint: 'azureServiceConnection'
