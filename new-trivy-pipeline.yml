@@ -66,6 +66,6 @@ steps:
   - task: trivy@1
     inputs:
       version: 'latest'
-      image: 'repo1:75'
+      image: 'dufrypoc1.azurecr.io/repo1:75'
       exitCode: '0'
       
