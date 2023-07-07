@@ -1,48 +1,71 @@
-# Release the Backend to Azure Registry
+# Maven
 
-trigger: none # will disable CI builds entirely
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+#  https://docs.microsoft.com/azure/devops/pipelines/languages/java 
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - pet-cleanic-app/*
 
 pr: none # will disable PR builds (but not CI builds)
-
+  
 variables:
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
   target: $(build.artifactstagingdirectory)
-  artifact: trivy-results
+  artifact: AM
+pool:
+  vmImage: 'ubuntu-latest'
+  timeoutInMinutes: 20 # how long to run the job before automatically cancelling
+  
 
+steps:
+  - task: Cache@2
+    inputs:
+      key: 'maven | "$(Agent.OS)" | **/pom.xml'
+      restoreKeys: |
+        maven | "$(Agent.OS)"
+        maven
+      path: $(MAVEN_CACHE_FOLDER)
+    displayName: Cache Maven local repo
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      mavenVersionOption: 'Default'
+      mavenOptions: '-Xmx3072m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+      mavenAuthenticateFeed: false
+      effectivePomSkip: false
+    
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'newDockerServiceConnection'
+      repository: 'seethai/dufryregistry2'
+      command: 'buildAndPush'
+      Dockerfile: $(dockerfilePath)
+      tags: |
+          $(tag)
+    
+  - task: Docker@2
+    displayName: Login to Docker Hub
+    inputs:
+      command: login
+      containerRegistry: 'newDockerServiceConnection'
 
-
-stages:
-  - stage: Deploy_BackEnd
-    displayName: Deploy and Push BackEnd Stage
-    jobs:
-      - job: Deploy
-        displayName: Deploy
-        pool:
-          vmImage: $(vmImageName)
-        steps:
-          - task: Cache@2
-            inputs:
-              key: 'maven | "$(Agent.OS)" | **/pom.xml'
-              restoreKeys: |
-                maven | "$(Agent.OS)"
-                maven
-              path: $(MAVEN_CACHE_FOLDER)
-            displayName: Cache Maven local repo
-          - task: Maven@3
-            inputs:
-              mavenPomFile: 'pom.xml'
-              publishJUnitResults: false
-              testResultsFiles: '**/surefire-reports/TEST-*.xml'
-              javaHomeOption: 'JDKVersion'
-              jdkVersionOption: '1.17'
-              mavenVersionOption: 'Default'
-              mavenOptions: '-Xmx3072m -Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
-              mavenAuthenticateFeed: false
-              effectivePomSkip: false
-              goals: 'compile jib:build'
-              # compile jib:build -pl service-template
-              options: '-Djib.to.auth.username=$(registry_name) -Djib.to.auth.password=$(registry_password) -DskipTests' 
+  - task: trivy@1
+    inputs:
+      version: 'latest'
+      image: 'seethai/dufryregistry2:$(tag)'
+      exitCode: '0'
+      
