@@ -61,7 +61,7 @@ steps:
     displayName: Login to Docker Hub
     inputs:
       command: login
-      containerRegistry: 'newDockerServiceConnection'
+      containerRegistry: 'DockerServiceConnectionMM'
 
   - task: trivy@1
     inputs:
